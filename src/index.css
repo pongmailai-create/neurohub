@@ -1,0 +1,257 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Theme tokens. The active theme is set by adding a class to <html>:
+   .dark (default), .light, or .cyberpunk. Components consume the CSS vars via
+   the semantic helper classes defined in @layer components below.
+--------------------------------------------------------------------------- */
+:root,
+.dark {
+  --bg: #0b0f17;
+  --panel: #131a26;
+  --panel-2: #1b2435;
+  --border: #283449;
+  --text: #e6edf6;
+  --muted: #8b9bb4;
+  --accent: #00f0ff;
+  --accent-2: #b026ff;
+  --ok: #3ddc84;
+  --err: #ff5c5c;
+}
+
+.light {
+  --bg: #f4f6fb;
+  --panel: #ffffff;
+  --panel-2: #eef1f7;
+  --border: #d7dded;
+  --text: #16202e;
+  --muted: #5a6b85;
+  --accent: #2563eb;
+  --accent-2: #7c3aed;
+  --ok: #16a34a;
+  --err: #dc2626;
+}
+
+.cyberpunk {
+  --bg: #08010f;
+  --panel: #12031f;
+  --panel-2: #1b0630;
+  --border: #ff2bd6;
+  --text: #f6e9ff;
+  --muted: #b388d6;
+  --accent: #00f0ff;
+  --accent-2: #fcee0a;
+  --ok: #00ffae;
+  --err: #ff2bd6;
+}
+
+/* Чёрная дыра: глубокий космос с аккреционным диском */
+.blackhole {
+  --bg: #000000;
+  --panel: #0a0a12;
+  --panel-2: #12121f;
+  --border: #2a2150;
+  --text: #e9e4ff;
+  --muted: #8a7fb5;
+  --accent: #a855f7;
+  --accent-2: #f59e0b;
+  --ok: #22d3ee;
+  --err: #fb7185;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+/* Аккреционный диск чёрной дыры: вращающееся свечение + чёрное ядро.
+   Палитра по референсам: #c74a00 / #db904e / #770000 + космический фиолет. */
+.blackhole:not(.no-grad) body {
+  background-color: #000;
+  background-image:
+    /* свет, искривлённый над диском */
+    radial-gradient(38% 14% at 50% 34%, rgba(255, 196, 120, 0.55), rgba(219, 144, 78, 0.25) 40%, transparent 70%),
+    /* вращающийся диск */
+    conic-gradient(from 0deg at 50% 50%,
+      #770000 0deg, #c74a00 35deg, #ffb066 70deg, #db904e 105deg,
+      #3c0092 150deg, #130c28 200deg, #311a80 250deg, #c74a00 300deg, #770000 360deg),
+    /* чёрное ядро (горизонт событий) */
+    radial-gradient(circle at 50% 50%, #000 0%, #000 12%, rgba(0, 0, 0, 0.85) 17%, transparent 23%),
+    /* далёкие туманности */
+    radial-gradient(1200px 800px at 82% 8%, rgba(199, 74, 0, 0.16), transparent 55%),
+    radial-gradient(1000px 700px at 8% 92%, rgba(60, 0, 146, 0.18), transparent 55%);
+  background-blend-mode: screen, normal, normal, screen, screen;
+  background-attachment: fixed;
+  animation: bhspin 90s linear infinite;
+}
+.blackhole:not(.no-grad) body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 50%, transparent 19%, rgba(0, 0, 0, 0.55) 30%, rgba(0, 0, 0, 0.92) 60%);
+}
+@keyframes bhspin {
+  from { filter: hue-rotate(0deg) saturate(1.05); }
+  to { filter: hue-rotate(360deg) saturate(1.05); }
+}
+.blackhole .panel,
+.blackhole .btn-accent {
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+html:not(.no-grad) body {
+  background-image: radial-gradient(
+      900px 500px at 100% 0%,
+      color-mix(in srgb, var(--accent) 12%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      800px 500px at 0% 100%,
+      color-mix(in srgb, var(--accent-2) 12%, transparent),
+      transparent 60%
+    );
+}
+
+@layer components {
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .panel-2 {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+  }
+  .muted {
+    color: var(--muted);
+  }
+  /* Градиент акцента на весь бар (слева/справа) */
+  .bar-gradient {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent) 22%, var(--panel)),
+      var(--panel) 45%,
+      color-mix(in srgb, var(--accent-2) 22%, var(--panel))
+    );
+  }
+  /* Режим без градиента — всё плоское */
+  .no-grad .bar-gradient {
+    background: var(--panel);
+  }
+  .no-grad .btn-accent {
+    background: var(--accent);
+  }
+  .btn {
+    @apply px-3 py-1.5 rounded-md text-sm font-medium transition;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn:hover {
+    border-color: var(--accent);
+  }
+  .btn-accent {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #04121a;
+    border-color: transparent;
+    font-weight: 600;
+  }
+  .btn-accent:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  .input {
+    @apply px-3 py-2 rounded-md text-sm w-full outline-none;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .input:focus {
+    border-color: var(--accent);
+  }
+  .cyberpunk .panel,
+  .cyberpunk .btn-accent {
+    box-shadow: 0 0 6px rgba(0, 240, 255, 0.35);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Анимации
+--------------------------------------------------------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 6px var(--accent); }
+  50% { box-shadow: 0 0 16px var(--accent); }
+}
+
+.anim-fade { animation: fadeIn 0.3s ease both; }
+.anim-fade-up { animation: fadeInUp 0.38s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-pop { animation: popIn 0.26s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.anim-slide-left { animation: slideInLeft 0.3s ease both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade, .anim-fade-up, .anim-pop { animation: none !important; }
+}
+
+/* Спиннер загрузки */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+/* Плавные ховеры на кнопках */
+.btn {
+  transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0) scale(0.97); }
+
+/* Thin scrollbars */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 8px;
+}

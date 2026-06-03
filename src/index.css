@@ -69,24 +69,12 @@ body,
 }
 
 /* Аккреционный диск чёрной дыры: вращающееся свечение + чёрное ядро.
-   Палитра по референсам: #c74a00 / #db904e / #770000 + космический фиолет. */
-.blackhole:not(.no-grad) body {
+   ВАЖНО: весь фон и его анимация живут на отдельном слое body::before
+   (position:fixed; z-index:-1), а НЕ на самом body — иначе CSS-filter
+   перекрашивал бы содержимое вкладок (сайты). Палитра по референсам:
+   #c74a00 / #db904e / #770000 + космический фиолет. */
+.blackhole body {
   background-color: #000;
-  background-image:
-    /* свет, искривлённый над диском */
-    radial-gradient(38% 14% at 50% 34%, rgba(255, 196, 120, 0.55), rgba(219, 144, 78, 0.25) 40%, transparent 70%),
-    /* вращающийся диск */
-    conic-gradient(from 0deg at 50% 50%,
-      #770000 0deg, #c74a00 35deg, #ffb066 70deg, #db904e 105deg,
-      #3c0092 150deg, #130c28 200deg, #311a80 250deg, #c74a00 300deg, #770000 360deg),
-    /* чёрное ядро (горизонт событий) */
-    radial-gradient(circle at 50% 50%, #000 0%, #000 12%, rgba(0, 0, 0, 0.85) 17%, transparent 23%),
-    /* далёкие туманности */
-    radial-gradient(1200px 800px at 82% 8%, rgba(199, 74, 0, 0.16), transparent 55%),
-    radial-gradient(1000px 700px at 8% 92%, rgba(60, 0, 146, 0.18), transparent 55%);
-  background-blend-mode: screen, normal, normal, screen, screen;
-  background-attachment: fixed;
-  animation: bhspin 90s linear infinite;
 }
 .blackhole:not(.no-grad) body::before {
   content: '';
@@ -94,7 +82,21 @@ body,
   inset: 0;
   pointer-events: none;
   z-index: -1;
-  background: radial-gradient(circle at 50% 50%, transparent 19%, rgba(0, 0, 0, 0.55) 30%, rgba(0, 0, 0, 0.92) 60%);
+  background-image:
+    /* затемнение краёв (поверх) */
+    radial-gradient(circle at 50% 50%, transparent 19%, rgba(0, 0, 0, 0.55) 32%, rgba(0, 0, 0, 0.94) 62%),
+    /* чёрное ядро (горизонт событий) */
+    radial-gradient(circle at 50% 50%, #000 0%, #000 12%, rgba(0, 0, 0, 0.85) 17%, transparent 23%),
+    /* свет, искривлённый над диском */
+    radial-gradient(38% 14% at 50% 34%, rgba(255, 196, 120, 0.55), rgba(219, 144, 78, 0.25) 40%, transparent 70%),
+    /* вращающийся диск */
+    conic-gradient(from 0deg at 50% 50%,
+      #770000 0deg, #c74a00 35deg, #ffb066 70deg, #db904e 105deg,
+      #3c0092 150deg, #130c28 200deg, #311a80 250deg, #c74a00 300deg, #770000 360deg),
+    /* далёкие туманности */
+    radial-gradient(1200px 800px at 82% 8%, rgba(199, 74, 0, 0.16), transparent 55%),
+    radial-gradient(1000px 700px at 8% 92%, rgba(60, 0, 146, 0.18), transparent 55%);
+  animation: bhspin 90s linear infinite;
 }
 @keyframes bhspin {
   from { filter: hue-rotate(0deg) saturate(1.05); }

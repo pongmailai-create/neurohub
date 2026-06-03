@@ -1,6 +1,6 @@
 {
   "name": "neurohub",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NeuroHub — desktop hub for AI tools, media and utilities with forced Xbox-DNS routing",
   "main": "dist-electron/main.js",
   "author": "NeuroHub",

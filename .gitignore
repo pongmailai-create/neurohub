@@ -1,0 +1,6 @@
+# This public repo only hosts the update manifest (latest.json) and releases.
+# Everything else (source, build output, local launchers) is hidden.
+/*
+!/.gitignore
+!/README.md
+!/latest.json

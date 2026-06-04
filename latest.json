@@ -1,5 +1,5 @@
 {
-  "version": "1.0.4",
-  "url": "https://github.com/pongmailai-create/neurohub/releases/download/v1.0.4/NeuroHub-Setup-1.0.4.exe",
-  "notes": "Красивая погода с недельным графиком и AI-прогнозом (OpenRouter), ручной выбор города, шифрование ключа, выбор города при VPN, мини-гайд по ключу. / Rich weather + AI forecast, manual city, encrypted key."
+  "version": "1.0.5",
+  "url": "https://github.com/pongmailai-create/neurohub/releases/download/v1.0.5/NeuroHub-Setup-1.0.5.exe",
+  "notes": "Стабильный DNS: режим secure (без откатов на системный DNS) — обход ИИ-сайтов без VPN теперь надёжный. Честная проверка DoH. / Reliable secure DNS, no fallbacks."
 }

@@ -1,5 +1,5 @@
 {
-  "version": "1.0.6",
-  "url": "https://github.com/pongmailai-create/neurohub/releases/download/v1.0.6/NeuroHub-Setup-1.0.6.exe",
-  "notes": "Вход в Google-сервисы через системный браузер (кнопка 🌐 в меню ⋯), стабильный DNS (secure), Firefox 140. / Google sign-in via system browser, stable secure DNS."
+  "version": "1.0.7",
+  "url": "https://github.com/pongmailai-create/neurohub/releases/download/v1.0.7/NeuroHub-Setup-1.0.7.exe",
+  "notes": "Вход в Google внутри приложения через Firefox-совместимый браузер (с переносом сессии и мультиаккаунтом). Если браузера нет — приложение само его скачает. / In-app Google sign-in via Firefox cookie import, auto-downloads browser if missing."
 }
